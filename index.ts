@@ -10,10 +10,15 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+const getInterviewers= db.prepare(`
+    SELECT * FROM interviewers;
+`)
 const getApplicants = db.prepare(`
     SELECT * FROM applicants;
 `)
-
+const getInterviews = db.prepare(`
+    SELECT * FROM interviews;
+`)
 
 
 
@@ -24,6 +29,16 @@ app.get('/applicants', (req, res) => {
     const applicants = getApplicants.all()
     res.send(applicants)
 })
+app.get('/interviews', (req, res) => {
+    const interviews = getInterviews.all()
+    res.send(interviews)
+})
+app.get('/interviewers', (req, res) => {
+    const interviewers = getInterviewers.all()
+    res.send(interviewers)
+})
+
+
 
 app.listen(port, () => {
     console.log(` http://localhost:${port}/`)
