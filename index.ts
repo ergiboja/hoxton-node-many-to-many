@@ -9,9 +9,22 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
+
+const getApplicants = db.prepare(`
+    SELECT * FROM applicants;
+`)
+
+
+
+
 app.get('/', (req, res) => {
     res.send(`Navigate to other routes to find data`)
 })
+app.get('/applicants', (req, res) => {
+    const applicants = getApplicants.all()
+    res.send(applicants)
+})
+
 app.listen(port, () => {
     console.log(` http://localhost:${port}/`)
 })
